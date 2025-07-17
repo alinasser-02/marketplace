@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
-    <title><%= foundListing.title %></title>
-</head>
-<body>
+<%- include('../partials/head') %>
+
     <h2><%= foundListing.title %></h2>
     <p><%= foundListing.description %></p>
     <p>SELLER: <%= foundListing.seller.username %></p>
@@ -15,9 +8,26 @@
 
 
     <% if( foundListing.seller._id.equals(user._id)){%>
-    <form action=" /listings/<%=foundListing._id %>?_method=DELETE"method="POST">
+    <div class="actions">
+      <form action="listings/<%=foundListing._id %>?_method=DELETE"method="POST">
       <button type="submit">Delete</button>
     </form>
      <% } %>
+    <button><a href="/listings/<%= foundListing._id%>/edit">Edit</a></button>
+     </div>
+     <h3>Leave a Comment</h3>
+     <form action="/listings/<%= foundListing._id%>/comments" method="POST">
+      <textarea name="content" id=""></textarea>
+      <button type="submit">Post Comment</button>
+     </form>
+     <h3>Comments</h3>
+     <ul>
+<%foundListing.comments.forEach((comment)=>{ %>
+<li>
+  <%= comment.content %> - <%= comment.author.username %>
+  
+</li>
+<% })%>
+     </ul>
 </body>
 </html>
